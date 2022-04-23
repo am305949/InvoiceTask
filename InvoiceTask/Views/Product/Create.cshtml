@@ -1,0 +1,70 @@
+﻿@model InvoiceTask.ViewModels.ProductCategoriesViewModel
+
+@{
+	ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<h4>Product</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="form-group">
+			@Html.LabelFor(model => model.Product.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Product.Name, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Product.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Product.Description, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Product.Description, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Product.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Product.Price, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Product.Price, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Product.Categories, htmlAttributes: new { @class = "control-label col-md-2" })
+			@*@Html.EditorFor(model => model.SelectedCategoriesIds, new { htmlAttributes = new { @class = "form-control" } })*@
+			@*@Html.EJ().DropDownList("DropDownList1").Datasource(Model.Categories).DropDownListFields(Df => Df.Text("Id").Value("Name")).ShowCheckbox(true).Width("300px").EnablePersistence(true)*@
+			<select asp-for="@Model.SelectedCategoriesIds" class="form-control" multiple>
+				@foreach (var category in @Model.Categories)
+				{
+					<option value="@category.Id">@category.Name</option>
+				}
+			</select>
+			@Html.ValidationMessageFor(model => model.Product.Categories, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
+}
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
